@@ -17,12 +17,11 @@ class _EditDivePageState extends State<EditDivePage> {
   late TextEditingController dateController;
 
   final service = FirestoreService();
+  final Color cursorColor = Colors.cyanAccent;
 
   @override
   void initState() {
     super.initState();
-    print('Editing dive ID: ${widget.dive.id}'); // <- add this
-
     locationController = TextEditingController(text: widget.dive.location);
     depthController = TextEditingController(text: widget.dive.depth.toString());
     dateController = TextEditingController(text: widget.dive.date);
@@ -36,8 +35,7 @@ class _EditDivePageState extends State<EditDivePage> {
       date: dateController.text,
     );
 
-    await service.updateDive(updatedDive); // new method for updating
-
+    await service.updateDive(updatedDive);
     Navigator.pop(context);
   }
 
@@ -46,12 +44,29 @@ class _EditDivePageState extends State<EditDivePage> {
     Navigator.pop(context);
   }
 
+  InputDecoration fieldDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: Colors.white),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: cursorColor),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: cursorColor, width: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Dive"),
+        title: const Text(
+          "Edit Dive",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.blue[800], // ocean-themed
+        iconTheme: const IconThemeData(color: Colors.white), // back button white
       ),
       body: Stack(
         children: [
@@ -72,28 +87,22 @@ class _EditDivePageState extends State<EditDivePage> {
               children: [
                 TextField(
                   controller: locationController,
-                  decoration: const InputDecoration(
-                    labelText: "Location",
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
+                  cursorColor: cursorColor,
                   style: const TextStyle(color: Colors.white),
+                  decoration: fieldDecoration("Location"),
                 ),
                 TextField(
                   controller: depthController,
-                  decoration: const InputDecoration(
-                    labelText: "Depth (ft)",
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
-                  style: const TextStyle(color: Colors.white),
                   keyboardType: TextInputType.number,
+                  cursorColor: cursorColor,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: fieldDecoration("Depth (ft)"),
                 ),
                 TextField(
                   controller: dateController,
-                  decoration: const InputDecoration(
-                    labelText: "Date",
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
+                  cursorColor: cursorColor,
                   style: const TextStyle(color: Colors.white),
+                  decoration: fieldDecoration("Date"),
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -101,12 +110,17 @@ class _EditDivePageState extends State<EditDivePage> {
                   children: [
                     ElevatedButton(
                       onPressed: saveDive,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal.shade400, // ocean theme
+                        foregroundColor: Colors.white, // text color
+                      ),
                       child: const Text("Save Changes"),
                     ),
                     ElevatedButton(
                       onPressed: deleteDive,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: Colors.red.shade300, // ocean-themed delete
+                        foregroundColor: Colors.white, // text color
                       ),
                       child: const Text("Delete"),
                     ),

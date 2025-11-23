@@ -101,6 +101,7 @@ class _DiveListPageState extends State<DiveListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.teal.shade400, // Matching ocean theme
+        foregroundColor: Colors.white,          // white plus sign
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(
