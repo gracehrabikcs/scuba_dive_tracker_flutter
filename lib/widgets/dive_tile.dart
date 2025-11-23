@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import '../data/hive_boxes.dart';
 import '../models/dive.dart';
+import '../data/firestore_service.dart';
 
 class DiveTile extends StatelessWidget {
   final Dive dive;
-  final int index;
 
   const DiveTile({
     super.key,
     required this.dive,
-    required this.index,
   });
 
   @override
@@ -21,7 +18,7 @@ class DiveTile extends StatelessWidget {
       trailing: IconButton(
         icon: const Icon(Icons.delete),
         onPressed: () {
-          Hive.box<Dive>(HiveBoxes.diveBox).deleteAt(index);
+          FirestoreService().deleteDive(dive.id);
         },
       ),
     );

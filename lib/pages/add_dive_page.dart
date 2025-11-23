@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import '../models/dive.dart';
-import '../data/hive_boxes.dart';
+import '../data/firestore_service.dart';
 
 class AddDivePage extends StatefulWidget {
   const AddDivePage({super.key});
@@ -15,14 +14,17 @@ class _AddDivePageState extends State<AddDivePage> {
   final depthController = TextEditingController();
   final dateController = TextEditingController();
 
-  void saveDive() {
+  final service = FirestoreService();
+
+  void saveDive() async {
     final dive = Dive(
+      id: '', // Firestore will assign automatically
       location: locationController.text,
       depth: int.tryParse(depthController.text) ?? 0,
       date: dateController.text,
     );
 
-    Hive.box<Dive>(HiveBoxes.diveBox).add(dive);
+    await service.addDive(dive);
 
     Navigator.pop(context);
   }

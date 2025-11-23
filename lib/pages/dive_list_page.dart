@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import '../data/hive_boxes.dart';
+import '../data/firestore_service.dart';
 import '../models/dive.dart';
 import '../widgets/dive_tile.dart';
 import 'add_dive_page.dart';
@@ -10,22 +9,27 @@ class DiveListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var diveBox = Hive.box<Dive>(HiveBoxes.diveBox);
+    final service = FirestoreService();
 
     return Scaffold(
       appBar: AppBar(title: const Text("My Dive Log")),
-      body: ValueListenableBuilder(
-        valueListenable: diveBox.listenable(),
-        builder: (context, Box<Dive> box, _) {
-          if (box.isEmpty) {
+      body: StreamBuilder<List<Dive>>(
+        stream: service.getDives(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final dives = snapshot.data!;
+
+          if (dives.isEmpty) {
             return const Center(child: Text("No dives logged yet."));
           }
 
           return ListView.builder(
-            itemCount: box.length,
+            itemCount: dives.length,
             itemBuilder: (context, index) {
-              final dive = box.getAt(index)!;
-              return DiveTile(dive: dive, index: index);
+              return DiveTile(dive: dives[index]);
             },
           );
         },

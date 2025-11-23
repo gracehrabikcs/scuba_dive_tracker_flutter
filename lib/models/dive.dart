@@ -1,21 +1,32 @@
-import 'package:hive/hive.dart';
-
-part 'dive.g.dart';
-
-@HiveType(typeId: 0)
 class Dive {
-  @HiveField(0)
-  String location;
-
-  @HiveField(1)
-  int depth;
-
-  @HiveField(2)
-  String date;
+  final String id;        // Firestore document ID
+  final String location;
+  final int depth;
+  final String date;
 
   Dive({
+    required this.id,
     required this.location,
     required this.depth,
     required this.date,
   });
+
+  // Create a Dive from Firestore document
+  factory Dive.fromMap(String id, Map<String, dynamic> data) {
+    return Dive(
+      id: id,
+      location: data['location'] ?? '',
+      depth: data['depth'] ?? 0,
+      date: data['date'] ?? '',
+    );
+  }
+
+  // Convert Dive to Firestore map
+  Map<String, dynamic> toMap() {
+    return {
+      'location': location,
+      'depth': depth,
+      'date': date,
+    };
+  }
 }
