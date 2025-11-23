@@ -31,31 +31,85 @@ class _AddDivePageState extends State<AddDivePage> {
 
   @override
   Widget build(BuildContext context) {
+    const cursorColor = Colors.cyanAccent;
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Add New Dive")),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              controller: locationController,
-              decoration: const InputDecoration(labelText: "Location"),
-            ),
-            TextField(
-              controller: depthController,
-              decoration: const InputDecoration(labelText: "Depth (ft)"),
-              keyboardType: TextInputType.number,
-            ),
-            TextField(
-              controller: dateController,
-              decoration: const InputDecoration(labelText: "Date"),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: saveDive,
-              child: const Text("Save Dive"),
-            ),
-          ],
+      appBar: AppBar(
+        title: const Text(
+          "Add New Dive",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blue[800], // ocean blue
+        iconTheme: const IconThemeData(color: Colors.white), // makes back button white
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/underwater_background.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              TextField(
+                controller: locationController,
+                cursorColor: cursorColor,
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  labelText: "Location",
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: cursorColor),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: cursorColor, width: 2),
+                  ),
+                ),
+              ),
+              TextField(
+                controller: depthController,
+                keyboardType: TextInputType.number,
+                cursorColor: cursorColor,
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  labelText: "Depth (ft)",
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: cursorColor),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: cursorColor, width: 2),
+                  ),
+                ),
+              ),
+              TextField(
+                controller: dateController,
+                cursorColor: cursorColor,
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  labelText: "Date",
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: cursorColor),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: cursorColor, width: 2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.cyan[700], // ocean-themed button
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: saveDive,
+                child: const Text("Save Dive"),
+              ),
+            ],
+          ),
         ),
       ),
     );

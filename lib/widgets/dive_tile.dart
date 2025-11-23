@@ -12,14 +12,24 @@ class DiveTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(dive.location),
-      subtitle: Text("Depth: ${dive.depth} ft — Date: ${dive.date}"),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: () {
-          FirestoreService().deleteDive(dive.id);
-        },
+    return Card(
+      color: Colors.transparent, // Makes the card background see-through
+      elevation: 0,
+      child: ListTile(
+        title: Text(
+          dive.location,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(
+          "Depth: ${dive.depth} ft — Date: ${dive.date}",
+          style: const TextStyle(color: Colors.white70),
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.white),
+          onPressed: () {
+            FirestoreService().deleteDive(dive.id);
+          },
+        ),
       ),
     );
   }
