@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/dive.dart';
 import '../data/firestore_service.dart';
+import '../pages/edit_dive_page.dart'; // import your new EditDivePage
 
 class DiveTile extends StatelessWidget {
   final Dive dive;
@@ -30,6 +31,15 @@ class DiveTile extends StatelessWidget {
             FirestoreService().deleteDive(dive.id);
           },
         ),
+        onTap: () {
+          // Navigate to the EditDivePage when the tile is tapped
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => EditDivePage(dive: dive),
+            ),
+          );
+        },
       ),
     );
   }

@@ -20,4 +20,9 @@ class FirestoreService {
   Future<void> deleteDive(String id) async {
     await divesRef.doc(id).delete();
   }
+
+  Future<void> updateDive(Dive dive) async {
+    await divesRef.doc(dive.id).update(dive.toMap());
+  }
+
 }
